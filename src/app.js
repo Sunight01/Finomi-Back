@@ -3,6 +3,7 @@ import helmet from "helmet";
 import cors from "cors";
 import bodyParser from "body-parser";
 import morgan from "morgan";
+import cookieParser from "cookie-parser";
 
 import config from "./config.js";
 import supabase from "./supabase.js";
@@ -24,9 +25,9 @@ class App {
   middleware() {
     this.app.use(morgan("dev"));
     this.app.use(helmet());
-    this.app.use(cors());
+    this.app.use(cors({credentials: true}));
+    this.app.use(cookieParser());
     this.app.options("*", cors());
-
     this.app.use(express.json());
     this.app.use(bodyParser.json());
     this.app.use(

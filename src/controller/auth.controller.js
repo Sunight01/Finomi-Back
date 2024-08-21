@@ -1,4 +1,6 @@
+import { signToken } from "../functions/jwt.js";
 import supabase from "../supabase.js";
+import response from "../functions/network.js";
 
 const register = async (req, res) => {
   const { username, email, password } = req.body;
@@ -15,7 +17,17 @@ const register = async (req, res) => {
     if (error) {
       return res.status(400).json({ error: error.message });
     }
-    res.status(200).json({ data });
+    const token = signToken({
+      id: data.user.id,
+      user: data.user.user_metadata.display_name,
+      email: data.user.email
+    });
+
+    response.successCookie(req, res, 200, "User registered succesfully", {
+      username: data.user.user_metadata.display_name,
+      email: data.user.email,
+      token: token
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -37,7 +49,12 @@ const login = async (req, res) => {
   }
 }
 
+const verfySession = async (req, res) => {
+  response.success(req, res, 200, "Session verified");
+}
+
 export default {
   register,
   login,
+  verfySession
 };
