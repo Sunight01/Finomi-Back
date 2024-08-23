@@ -1,12 +1,12 @@
-const success = (req, res, status, message, data) => {
+const success = (req, res, status, message, response) => {
   res.status(status).json({
     status: status,
     message: message,
-    ...(data && { data })
+    ...(response && { response })
   });
 }
 
-const successCookie = (req, res, status, message, data) => {
+const successCookie = (req, res, status, message, response) => {
 
   if (req.cookies.authToken) {
     res.clearCookie('authToken');
@@ -19,15 +19,15 @@ const successCookie = (req, res, status, message, data) => {
   res.status(status).json({
     status: status,
     message: message,
-    ...(data && { data })
+    ...(response && { response })
   });
 }
 
-const error = (req, res, status, message, data) => {
+const error = (req, res, status, message, response) => {
   res.status(status).json({
     status: status,
     message: message,
-    ...(data && { data })
+    ...(response && { response })
   });
 }
 
