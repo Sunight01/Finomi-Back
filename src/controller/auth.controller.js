@@ -24,6 +24,7 @@ const register = async (req, res) => {
     });
 
     response.successCookie(req, res, 200, "User registered succesfully", {
+      id: data.user.id,
       username: data.user.user_metadata.display_name,
       email: data.user.email,
       token: token
@@ -51,6 +52,7 @@ const login = async (req, res) => {
     });
 
     response.success(req, res, 200, "User logged in succesfully", {
+      id: data.user.id,
       username: data.user.user_metadata.display_name,
       email: data.user.email,
       token: token

@@ -9,6 +9,7 @@ import config from "./config.js";
 import supabase from "./supabase.js";
 
 import authRoutes from "./routes/auth.routes.js";
+import transactionRoutes from "./routes/transaction.routes.js";
 
 class App {
   constructor() {
@@ -44,6 +45,7 @@ class App {
 
   routes() {
     this.app.use("/api/auth", authRoutes);
+    this.app.use("/api/transactions", transactionRoutes);
   }
 
   start() {
