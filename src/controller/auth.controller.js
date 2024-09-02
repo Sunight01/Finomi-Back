@@ -62,6 +62,23 @@ const login = async (req, res) => {
   }
 }
 
+const logout = async (req, res) => {
+  try {
+    const { error } = await supabase.auth.signOut()
+
+    if (error === null) {
+      response.success(req, res, 200, "User logged out succesfully", error);
+    } else {
+      response.error(req, res, 400, "User not logged in");
+    }
+
+
+  } catch (error) {
+    console.log(error)
+    response.error(req, res, 500, "Error logging out", error);
+  }
+}
+
 const verfySession = async (req, res) => {
   response.success(req, res, 200, "Session verified");
 }
@@ -69,5 +86,6 @@ const verfySession = async (req, res) => {
 export default {
   register,
   login,
-  verfySession
+  verfySession,
+  logout
 };

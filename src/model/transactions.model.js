@@ -27,10 +27,44 @@ const insertTransaction = async (
   return JSON.parse(JSON.stringify(rows[0]));
 };
 
+const updateTransaction = async (id, title, type, date, tag, description, amount) => {
+  const query = `
+    UPDATE transactions
+    SET title = $1, type = $2, date = $3, tag = $4, description = $5, amount = $6
+    WHERE id = $7
+    RETURNING *
+  `;
+
+  const client = DB.getClient();
+  const { rows } = await client.query(query, [
+    title,
+    type,
+    date,
+    tag,
+    description,
+    amount,
+    id,
+  ]);
+  return JSON.parse(JSON.stringify(rows[0]));
+};
+
+const deleteTransaction = async (id) => {
+  const query = `
+    UPDATE transactions
+    SET is_deleted = true
+    WHERE id = $1
+  `;
+
+  const client = DB.getClient();
+  const { rows } = await client.query(query, [id]);
+  return JSON.parse(JSON.stringify(rows));
+}
+
 const getTransactions = async (user_id) => {
   const query = `
     SELECT * FROM transactions
-    WHERE user_id = $1
+    WHERE user_id = $1 AND is_deleted = false
+    ORDER BY date DESC
   `;
 
   const client = DB.getClient();
@@ -40,5 +74,7 @@ const getTransactions = async (user_id) => {
 
 export default {
   insertTransaction,
+  updateTransaction,
+  deleteTransaction,
   getTransactions
 };
