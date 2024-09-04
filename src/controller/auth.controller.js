@@ -15,7 +15,7 @@ const register = async (req, res) => {
       },
     });
     if (error) {
-      return res.status(400).json({ error: error.message });
+      return response.error(req, res, 400, "Error registering user", error.message);
     }
     const token = signToken({
       id: data.user.id,
@@ -42,7 +42,7 @@ const login = async (req, res) => {
       password,
     });
     if (error) {
-      return res.status(400).json({ error: error.message });
+      return response.error(req, res, 400, "Error logging in user", error.message);
     }
 
     const token = signToken({
@@ -58,7 +58,7 @@ const login = async (req, res) => {
       token: token
     });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return response.error(req, res, 400, "Error logging in user", error.message);
   }
 }
 
