@@ -4,6 +4,10 @@ dotenv.config();
 export default {
   PORT: process.env.PORT,
   SECRET_KEY: process.env.SECRET_KEY,
+  OPENAI: {
+    KEY: process.env.OPENAI_KEY,
+    PROMPT: process.env.OPENAI_PROMPT,
+  },
   supabase: {
     url: process.env.SUPABASE_URL,
     key: process.env.SUPABASE_KEY,

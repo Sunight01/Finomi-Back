@@ -10,6 +10,7 @@ import supabase from "./supabase.js";
 
 import authRoutes from "./routes/auth.routes.js";
 import transactionRoutes from "./routes/transaction.routes.js";
+import chatRoutes from "./routes/chat.routes.js";
 
 class App {
   constructor() {
@@ -46,6 +47,7 @@ class App {
   routes() {
     this.app.use("/api/auth", authRoutes);
     this.app.use("/api/transactions", transactionRoutes);
+    this.app.use("/api/chat", chatRoutes);
   }
 
   start() {
