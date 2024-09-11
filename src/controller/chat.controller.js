@@ -12,9 +12,8 @@ const sendMessage = async (req, res) => {
       messages: [{
         role: "system",
         content: config.OPENAI.PROMPT
-      }, {role: "user", content: message}],
-      temperature: 0.7,
-      max_tokens: 100,
+      }, ...message],
+      temperature: 0.7
     });
     response.success(req, res, 200, "Message sent successfully", data.choices[0]);
   } catch (error) {
@@ -58,9 +57,21 @@ const saveMessages = async (req, res) => {
   }
 }
 
+const deleteMessages = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const data = await Model.deleteMessages(id);
+    response.success(req, res, 200, "Messages deleted successfully", data);
+  } catch (error) {
+    console.log(error)
+    response.error(req, res, 500, "Something went wrong", error.message);
+  }
+}
+
 export default {
   getMessages,
   sendMessage,
   updateMessages,
-  saveMessages
+  saveMessages,
+  deleteMessages
 };

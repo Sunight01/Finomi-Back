@@ -62,7 +62,8 @@ const deleteTransaction = async (id) => {
 
 const getTransactions = async (user_id) => {
   const query = `
-    SELECT * FROM transactions
+    SELECT *
+    FROM transactions
     WHERE user_id = $1 AND is_deleted = false
     ORDER BY date DESC
   `;
