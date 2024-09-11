@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import config from "../config.js";
 
+// Funcion para verificar si la sesión está activa con el token de jwt.
 export const verifyToken = (req, res, next) => {
   const auth = req.headers.authorization;
   

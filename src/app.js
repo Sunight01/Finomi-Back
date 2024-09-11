@@ -12,6 +12,7 @@ import authRoutes from "./routes/auth.routes.js";
 import transactionRoutes from "./routes/transaction.routes.js";
 import chatRoutes from "./routes/chat.routes.js";
 
+//Se utiliza Singleton para crear una sola instancia de express.
 class App {
   constructor() {
     this.app = express();
@@ -20,36 +21,40 @@ class App {
     this.routes();
   }
 
+  //Configuracion de la app: Establecimiento de puerto
   settings() {
     this.app.set("port", config.PORT);
   }
 
+  //Middlewares de la app.
   middleware() {
-    this.app.use(morgan("dev"));
-    this.app.use(helmet());
-    this.app.use(cors({credentials: true}));
-    this.app.use(cookieParser());
-    this.app.options("*", cors());
-    this.app.use(express.json());
-    this.app.use(bodyParser.json());
+    this.app.use(morgan("dev")); // Muestra logs de las solicitudes HTTP que se realicen.
+    this.app.use(helmet()); // Añade seguridad a los header de las solicitudes HTTP.
+    this.app.use(cors({credentials: true})); // Permite las solicitudes de CORS.
+    this.app.use(cookieParser()); // Almacena las cookies de las solicitudes HTTP.
+    this.app.options("*", cors()); // Permite las solicitudes de CORS para los métodos OPTIONS.
+    this.app.use(express.json()); // Almacena los datos de las solicitudes HTTP en formato JSON.
+    this.app.use(bodyParser.json()); // Otra opcion para almacecnar los datos de las solicitudes HTTP en formato JSON.
     this.app.use(
       express.urlencoded({
         extended: true,
       })
-    );
+    ); //Permite procesar datos enviados desde formularios HTML.
 
     this.app.use((err, req, res, next) => {
       console.error(err.stack);
       res.status(500).send("Something broke!");
-    });
+    }); // Si ocurre algún error, se envia un mensaje de error al usuario.
   }
 
+  // Rutas de la app.
   routes() {
     this.app.use("/api/auth", authRoutes);
     this.app.use("/api/transactions", transactionRoutes);
     this.app.use("/api/chat", chatRoutes);
   }
 
+  //Inicia la app.
   start() {
     this.app.listen(this.app.get("port"), () => {
       console.log(`Server is running on port ${this.app.get("port")}`);

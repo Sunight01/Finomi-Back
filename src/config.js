@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
+// Se cargan las variables de entorno de la aplicación.
 export default {
   PORT: process.env.PORT,
   SECRET_KEY: process.env.SECRET_KEY,

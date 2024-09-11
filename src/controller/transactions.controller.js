@@ -1,6 +1,7 @@
 import response from "../functions/network.js";
 import Model from "../model/transactions.model.js";
 
+// Funcion para crear una transacción en la BD.
 const createTransaction = async (req, res) => {
   const { user_id, title, type, date, tag, description, amount } = req.body;
   try {
@@ -14,6 +15,7 @@ const createTransaction = async (req, res) => {
 
 };
 
+// Funcion para actualizar una transacción en la BD.
 const updateTransaction = async (req, res) => {
   const { id, title, type, date, tag, description, amount } = req.body;
   try {
@@ -25,6 +27,7 @@ const updateTransaction = async (req, res) => {
   }
 };
 
+// Funcion para eliminar una transacción en la BD.
 const deleteTransaction = async (req, res) => {
   const { id } = req.params;
   try {
@@ -36,6 +39,7 @@ const deleteTransaction = async (req, res) => {
   }
 };
 
+// Funcion para obtener todas las transacciones de un usuario.
 const getTransactions = async (req, res) => {
   const {id} = req.params;
   try {

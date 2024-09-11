@@ -2,6 +2,7 @@ import { signToken } from "../functions/jwt.js";
 import supabase from "../supabase.js";
 import response from "../functions/network.js";
 
+// Función para registrar un usuario en Supabase.
 const register = async (req, res) => {
   const { username, email, password } = req.body;
   try {
@@ -34,6 +35,7 @@ const register = async (req, res) => {
   }
 };
 
+// Función para iniciar sesión en Supabase.
 const login = async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -62,6 +64,7 @@ const login = async (req, res) => {
   }
 }
 
+// Funcion para cerrar la sesión de un usuario.
 const logout = async (req, res) => {
   try {
     const { error } = await supabase.auth.signOut()

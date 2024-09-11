@@ -3,6 +3,7 @@ import Model from "../model/chat.model.js";
 import openai from "../openai.js";
 import config from "../config.js";
 
+// Funcion para enviar un mensaje a OpenAI.
 const sendMessage = async (req, res) => {
   const { message } = req.body;
 
@@ -22,6 +23,7 @@ const sendMessage = async (req, res) => {
   }
 }
 
+// Funcion para obtener los mensajes de chat de un usuario.
 const getMessages = async (req, res) => {
   const { id } = req.params;
   try {
@@ -33,6 +35,7 @@ const getMessages = async (req, res) => {
   }
 }
 
+// Funcion para actualizar los mensajes de chat de un usuario.
 const updateMessages = async (req, res) => {
   const { id } = req.params;
   const { messages } = req.body
@@ -45,6 +48,7 @@ const updateMessages = async (req, res) => {
   }
 }
 
+// Funcion para guardar los mensajes de chat de un usuario.
 const saveMessages = async (req, res) => {
   const { id } = req.params;
   const { messages } = req.body
@@ -57,6 +61,7 @@ const saveMessages = async (req, res) => {
   }
 }
 
+// Funcion para eliminar los mensajes de chat de un usuario.
 const deleteMessages = async (req, res) => {
   const { id } = req.params;
   try {

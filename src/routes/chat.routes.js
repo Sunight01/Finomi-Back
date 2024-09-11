@@ -2,6 +2,7 @@ import { Router } from "express";
 import chatController from "../controller/chat.controller.js";
 import { verifyToken } from "../middlewares/verifyToken.js";
 
+// Rutas de la API de chat.
 const router = Router();
 
 router.get('/get-messages/:id', verifyToken, chatController.getMessages);

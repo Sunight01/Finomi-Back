@@ -1,3 +1,4 @@
+// Funciones para manejar las respuestas de la API.
 const success = (req, res, status, message, response) => {
   res.status(status).json({
     status: status,
@@ -6,6 +7,7 @@ const success = (req, res, status, message, response) => {
   });
 }
 
+// Función para manejar las respuestas de la API con cookies.
 const successCookie = (req, res, status, message, response) => {
 
   if (req.cookies.authToken) {
@@ -23,6 +25,7 @@ const successCookie = (req, res, status, message, response) => {
   });
 }
 
+// Función para manejar las respuestas de la API con errores.
 const error = (req, res, status, message, response) => {
   res.status(status).json({
     status: status,

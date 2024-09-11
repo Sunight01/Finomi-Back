@@ -1,5 +1,6 @@
 import DB from "../database.js";
 
+// Función para insertar una transacción en la base de datos.
 const insertTransaction = async (
   user_id,
   title,
@@ -27,6 +28,7 @@ const insertTransaction = async (
   return JSON.parse(JSON.stringify(rows[0]));
 };
 
+// Función para actualizar una transacción en la base de datos.
 const updateTransaction = async (id, title, type, date, tag, description, amount) => {
   const query = `
     UPDATE transactions
@@ -48,6 +50,7 @@ const updateTransaction = async (id, title, type, date, tag, description, amount
   return JSON.parse(JSON.stringify(rows[0]));
 };
 
+// Funcion para eliminar una transacción en la base de datos.
 const deleteTransaction = async (id) => {
   const query = `
     UPDATE transactions
@@ -60,6 +63,7 @@ const deleteTransaction = async (id) => {
   return JSON.parse(JSON.stringify(rows));
 }
 
+// Funcion para obtener todas las transacciones de un usuario.
 const getTransactions = async (user_id) => {
   const query = `
     SELECT *

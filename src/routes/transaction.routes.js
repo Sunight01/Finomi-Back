@@ -3,6 +3,7 @@ import { verifyToken } from "../middlewares/verifyToken.js";
 
 import Controller from "../controller/transactions.controller.js";
 
+// Rutas de la API de transacciones.
 const router = Router();
 
 router.post("/create", verifyToken, Controller.createTransaction);
