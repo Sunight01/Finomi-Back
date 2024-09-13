@@ -12,7 +12,7 @@ export const verifyToken = (req, res, next) => {
   const parts = auth.split(' ');
 
   if (parts.length !== 2 || parts[0] !== 'Bearer') {
-    return res.status(401).json({ message: "Invalid authorization header format" });
+    return res.status(401).json({ status: 401, message: "Invalid authorization header format" });
   }
 
   const token = parts[1];
@@ -22,6 +22,6 @@ export const verifyToken = (req, res, next) => {
     req.user = decoded;
     next();
   } catch (err) {
-    return res.status(401).json({ message: "Invalid token" });
+    return res.status(401).json({ status: 401, message: "Invalid token" });
   }
 };
