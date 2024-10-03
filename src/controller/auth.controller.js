@@ -1,37 +1,32 @@
 import { signToken } from "../functions/jwt.js";
+import { hashPassword, verifyPassword } from "../functions/bpt.js";
 import supabase from "../supabase.js";
 import response from "../functions/network.js";
+import Model from "../model/auth.model.js";
 
 // Función para registrar un usuario en Supabase.
 const register = async (req, res) => {
   const { username, email, password } = req.body;
   try {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          display_name: username,
-        },
-      },
-    });
-    if (error) {
-      return response.error(req, res, 400, "Error registering user", error.message);
-    }
-    const token = signToken({
-      id: data.user.id,
-      user: data.user.user_metadata.display_name,
-      email: data.user.email
-    });
+    const encryptedPassword = hashPassword(password);
+    const data = await Model.insertUser(username, email, encryptedPassword);
+    console.log(data)
 
-    response.successCookie(req, res, 200, "User registered succesfully", {
-      id: data.user.id,
-      username: data.user.user_metadata.display_name,
-      email: data.user.email,
+    const token = signToken({
+      id: data.user_id,
+      user: data.username,
+      email: data.email
+    });
+    console.log(token)
+
+    response.success(req, res, 200, "User registered succesfully", {
+      id: data.id,
+      username: data.username,
+      email: data.email,
       token: token
     });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: "user already exists" });
   }
 };
 
@@ -39,28 +34,28 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    if (error) {
-      return response.error(req, res, 400, "Error logging in user", error.message);
+    const data = await Model.getUser(email);
+    console.log(data)
+    const compare = verifyPassword(password, data.password);
+    console.log(compare)
+    if (compare) {
+      const token = signToken({
+        id: data.user_id,
+        user: data.username,
+        email: data.email
+      });
+
+      response.success(req, res, 200, "User logged in succesfully", {
+        id: data.user_id,
+        username: data.username,
+        email: data.email,
+        token: token
+      });
+    } else {
+      response.error(req, res, 400, "Error logging in user", "Invalid login credentials");
     }
-
-    const token = signToken({
-      id: data.user.id,
-      user: data.user.user_metadata.display_name,
-      email: data.user.email
-    });
-
-    response.success(req, res, 200, "User logged in succesfully", {
-      id: data.user.id,
-      username: data.user.user_metadata.display_name,
-      email: data.user.email,
-      token: token
-    });
   } catch (error) {
-    return response.error(req, res, 400, "Error logging in user", error.message);
+    return response.error(req, res, 400, "Error logging in user", "Invalid login credentials");
   }
 }
 
