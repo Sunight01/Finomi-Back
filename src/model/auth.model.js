@@ -22,6 +22,18 @@ const getUser = async (email) => {
   return JSON.parse(JSON.stringify(rows[0]));
 };
 
+const updateUser = async (id, username, email) => {
+  const query = `
+    UPDATE users
+    SET username = $1, email = $2
+    WHERE user_id = $3
+  `;
+
+  const client = DB.getClient();
+  const { rows } = await client.query(query, [username, email, id]);
+  return JSON.parse(JSON.stringify(rows));
+};
+
 const lastLogin = async (email) => {
   const query = `
     UPDATE users
@@ -36,5 +48,6 @@ const lastLogin = async (email) => {
 export default {
   insertUser,
   getUser,
+  updateUser,
   lastLogin,
 };
