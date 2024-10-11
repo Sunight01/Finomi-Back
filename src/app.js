@@ -11,6 +11,7 @@ import supabase from "./supabase.js";
 import authRoutes from "./routes/auth.routes.js";
 import transactionRoutes from "./routes/transaction.routes.js";
 import chatRoutes from "./routes/chat.routes.js";
+import suggestRoutes from "./routes/suggest.routes.js";
 
 //Se utiliza Singleton para crear una sola instancia de express.
 class App {
@@ -52,6 +53,7 @@ class App {
     this.app.use("/api/auth", authRoutes);
     this.app.use("/api/transactions", transactionRoutes);
     this.app.use("/api/chat", chatRoutes);
+    this.app.use("/api/suggest", suggestRoutes);
   }
 
   //Inicia la app.

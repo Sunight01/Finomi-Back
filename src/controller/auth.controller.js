@@ -1,8 +1,8 @@
 import { signToken } from "../functions/jwt.js";
 import { hashPassword, verifyPassword } from "../functions/bpt.js";
-import supabase from "../supabase.js";
 import response from "../functions/network.js";
 import Model from "../model/auth.model.js";
+import supabase from "../supabase.js";
 
 // Función para registrar un usuario en Supabase.
 const register = async (req, res) => {
@@ -16,13 +16,15 @@ const register = async (req, res) => {
       id: data.user_id,
       user: data.username,
       email: data.email,
+      role: data.role
     });
     console.log(token);
 
     response.success(req, res, 200, "User registered succesfully", {
-      id: data.id,
+      id: data.user_id,
       username: data.username,
       email: data.email,
+      role: data.role,
       token: token,
     });
   } catch (error) {
@@ -42,12 +44,14 @@ const login = async (req, res) => {
         id: data.user_id,
         user: data.username,
         email: data.email,
+        role: data.role
       });
 
       response.success(req, res, 200, "User logged in succesfully", {
         id: data.user_id,
         username: data.username,
         email: data.email,
+        role: data.role,
         token: token,
       });
     } else {
